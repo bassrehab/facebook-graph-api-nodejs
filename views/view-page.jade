@@ -1,0 +1,61 @@
+extends layout
+
+block content
+    ul#menu
+        li
+            a(href="/dashboard") Dashboard
+        li
+            a(href="/logout") Logout
+
+
+    h1 #{title}
+    if !error
+        div#left-box
+            table#posts-list
+                -var ob = JSON.parse(data)
+                -for(var prop in ob)
+                    tr.page-box
+                        td #{parseFloat(prop)+1}
+                        td #{ob[prop].message}
+                        td #{ob[prop].views}
+                        td #{moment(ob[prop].created_time)}
+                        td
+                            a(href="#" + ob[prop].id + "?page_token=" + JSON.parse(page).token + "&user_token=" + user_token) Edit
+
+            p.info This table lists all posts from a page, regular and unpublished posts
+
+
+        div#right-box
+
+            p Create a new post
+            form(action='/create/post/'+ JSON.parse(page).id , method='get')
+                input(id='post-type',type='hidden',value='simple', name='post_type')
+                input(id='message',type='text',value='', placeholder='Enter your message',name='message')
+                input(type='submit',value='Submit')
+
+            br
+            hr
+            // -
+                p Create a new Image post
+                form(action='/create/post/' + JSON.parse(page).id , method='get')
+                    input(id='post-type',type='hidden',value='photo', name='post_type')
+                    input(id='message',type='text',value='',placeholder='Enter your message',name='message')
+                    input(type='file', name='post_photo', accept='image/*')
+                    input(type='submit',value='Submit')
+
+
+                br
+                hr
+
+                p Create a new Unpublished Post
+                form(action='/create/post/' + JSON.parse(page).id , method='get')
+                    input(id='post-type',type='hidden',value='unpublished', name='post_type')
+                    input(id='message',type='text',value='',placeholder='Enter your message',name='message')
+                    input(type='submit',value='Submit')
+
+
+                // -<input accept="file_extension|audio/*|video/*|image/*|media_type">
+
+
+    else
+        p #{result}

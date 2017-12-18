@@ -1,0 +1,16 @@
+//Created by sid on 1/6/17.
+
+extends layout
+
+block content
+    ul#menu
+        li
+            a(href="/dashboard") Dashboard
+        li
+            a(href="/logout") Logout
+    h1 Posts
+    p=data
+    if !error
+        p #{result}
+    else
+        p #{result}

@@ -1,0 +1,35 @@
+extends layout
+
+block content
+    //- script(src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.2/socket.io.min.js")
+    //- script.
+        var socket = io.connect('http://localhost:3000');
+
+    ul#menu
+        li.active
+            a(href="/dashboard") Dashboard
+        li
+            a(href="/logout") Logout
+
+
+    h1= title
+
+    //- p #{result}
+
+    if !error
+
+        ul#pages-list
+            -var ob = JSON.parse(result)
+            -for(var prop in ob.data)
+
+                li.page-box
+                    p.big-text #{ob.data[prop].name}
+                    p.small-text #{ob.data[prop].category}
+                    a(href="/view/page/" + ob.data[prop].id) Manage
+
+        p.info This page lists all the pages available to logged in user. Click on 'MANAGE' to view and add posts.
+    else
+        p #{result}
+
+
+script(src='javascripts/client-dashboard.js')

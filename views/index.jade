@@ -1,0 +1,11 @@
+extends layout
+
+block content
+  h1= title
+
+  if !loggedin
+        p Welcome to #{title}
+        p Please click below to authenticate and begin
+        a(href="/authorize") Login with Facebook
+  else
+    p You are logged in
